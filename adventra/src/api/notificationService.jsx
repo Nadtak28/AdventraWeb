@@ -11,7 +11,7 @@ export const sendFcmToken = createAsyncThunk(
         token: fcmToken,
       };
 
-      const res = await MoujaasAuth.post(`${API}/user/fcm_token`, payload);
+      const res = await MoujaasAuth.post(`/user/fcm_token`, payload);
       console.log(res?.data?.data ?? res?.data);
       return res?.data?.data ?? res?.data;
     } catch (error) {

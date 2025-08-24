@@ -33,7 +33,7 @@ export default function GoogleLoginButton() {
         const fcmToken = await requestFCMToken();
         if (fcmToken) {
           // 4️⃣ Send FCM token to backend
-          await dispatch(sendFcmToken({ fcm_token: fcmToken }));
+          await dispatch(sendFcmToken(fcmToken));
           console.log("FCM token sent:", fcmToken);
         } else {
           console.warn("FCM token not retrieved");

@@ -7,6 +7,10 @@ export const HomeService = createAsyncThunk(
   "home/fetchHomeData",
   async (_, thunkAPI) => {
     try {
+      MoujaasAuth.defaults.headers[
+        "Authorization"
+      ] = `Bearer ${tokenStore.getToken()}`;
+
       const response = await MoujaasAuth.get(API.home);
       console.log(response.data);
       console.log(tokenStore.getToken());
