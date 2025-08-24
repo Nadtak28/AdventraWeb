@@ -7,7 +7,7 @@ import { store } from "./store/store.js";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { initTheme } from "./themes/toogleTheme.jsx";
-import {GoogleAPIKey} from "./utils/firebase.js";
+import {GoogleAPIKey} from "./firebase.js";
 
 initTheme();
 

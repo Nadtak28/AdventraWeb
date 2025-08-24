@@ -1,6 +1,6 @@
 // src/utils/FcmService.js
 import { getToken } from "firebase/messaging";
-import {messaging, vapiFireBase} from "./firebase"; // <-- use firebase.js
+import {messaging, vapiFireBase} from "../firebase.js"; // <-- use firebase.js
 
 export const requestFCMToken = async () => {
   try {
