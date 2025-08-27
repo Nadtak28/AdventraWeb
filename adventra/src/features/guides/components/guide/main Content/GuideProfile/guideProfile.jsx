@@ -1,12 +1,14 @@
 import AnimatedCard from "../animatedCard";
 const GuideProfile = ({ guide }) => {
-  const imageUrl = guide.images?.[0]?.url || "/assets/hero-img.png";
+  const imageUrl =
+    guide.images?.[0]?.url ||
+    "https://placehold.co/500x300?text=No+Image+Available";
   const languages = guide.languages?.length
     ? guide.languages.map((lang) => lang.name).join(", ")
     : "N/A";
   return (
-    <AnimatedCard className="bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100">
-      <div className="flex flex-col bg-white md:flex-row items-start gap-6">
+    <AnimatedCard className="bg-white dark:bg-[#1a1f2e] rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100">
+      <div className="flex flex-col dark:bg-[#1a1f2e] bg-white md:flex-row items-start gap-6">
         {/* Profile Image */}
         <div className="relative group">
           <div
@@ -32,7 +34,7 @@ const GuideProfile = ({ guide }) => {
             className="animate-slideRight"
             style={{ animationDelay: "200ms" }}
           >
-            <h1 className="text-2xl md:text-3xl font-bold  mb-2 bg-gradient-to-r from-gray-900 to-[#519489] bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-3xl font-bold dark:from-white  mb-2 bg-gradient-to-r from-gray-900 to-[#519489] bg-clip-text text-transparent">
               {guide.name}
             </h1>
             <div className="flex items-center text-[#519489] font-medium mb-1">
@@ -109,7 +111,7 @@ const GuideProfile = ({ guide }) => {
       {/* Description */}
       <div className="mt-8 animate-slideUp" style={{ animationDelay: "600ms" }}>
         <div className="h-px bg-gradient-to-r from-transparent via-[#519489] to-transparent mb-6"></div>
-        <p className="text-gray-700 leading-relaxed text-lg font-light">
+        <p className="text-gray-700 dark:text-white leading-relaxed text-lg font-light">
           {guide.description}
         </p>
       </div>

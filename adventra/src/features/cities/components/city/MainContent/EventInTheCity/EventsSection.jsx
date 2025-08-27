@@ -23,11 +23,10 @@ const EventsSection = ({ cityId }) => {
         <div className="p-2 rounded-lg bg-[#519489]/10">
           <Calendar className="w-6 h-6 text-[#519489]" />
         </div>
-        <h2 className="text-[#101918] text-2xl font-bold">
+        <h2 className="text-[#101918] dark:text-white text-2xl font-bold">
           Events in the City
         </h2>
       </div>
-
       <div className="overflow-x-auto scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex items-stretch gap-4 px-4 py-2 md:px-6">
           {loading ? (
@@ -40,10 +39,10 @@ const EventsSection = ({ cityId }) => {
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#519489]/10 flex items-center justify-center">
                   <Calendar className="w-8 h-8 text-[#519489]/60" />
                 </div>
-                <p className="text-[#519489]/60 text-lg font-medium">
+                <p className="text-[#519489]/60 dark:text-white/60 text-lg font-medium">
                   No events scheduled
                 </p>
-                <p className="text-[#519489]/40 text-sm mt-1">
+                <p className="text-[#519489]/40 dark:text-white/40 text-sm mt-1">
                   Check back later for upcoming events
                 </p>
               </div>
@@ -58,4 +57,5 @@ const EventsSection = ({ cityId }) => {
     </section>
   );
 };
+
 export default EventsSection;

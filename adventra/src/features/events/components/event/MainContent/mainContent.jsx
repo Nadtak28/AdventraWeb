@@ -10,11 +10,13 @@ import HeroSection from "../MainContent/HeroSection/heroSection";
 import { OneEventService } from "../../../api/oneEventService";
 import { GetInfoUserService } from "../../../../user/api/getInfoUserService";
 import ReviewsSection from "../../../../../components/ReviewSection/reviewSection";
-
+import LimitedEventBanner from "./limitedEventBanner";
+import RelatedGuides from "./GuideInfo/relatedGuides";
 function MainContent() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
   const {
     detail: eventData,
@@ -35,7 +37,7 @@ function MainContent() {
 
   if (loadingDetail) {
     return (
-      <main className="bg-white layout-container flex h-full grow flex-col">
+      <main className="bg-white dark:bg-[#1a1f2e] layout-container flex h-full grow flex-col">
         <div className="layout-content-container flex flex-col max-w-[960px] mx-auto w-full">
           <div className="animate-pulse space-y-8 p-4">
             <LoadingSkeleton className="w-full h-8" />
@@ -77,7 +79,7 @@ function MainContent() {
   }
 
   return (
-    <main className="bg-white layout-container flex h-full grow flex-col relative">
+    <main className="bg-white dark:bg-[#1a1f2e] layout-container flex h-full grow flex-col relative">
       {/* floating background shapes */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(8)].map((_, i) => (
@@ -98,17 +100,24 @@ function MainContent() {
       </div>
 
       {/* Main content - Apply blur when modal is open */}
-      <div
-        className={`layout-content-container flex flex-col max-w-[960px] mx-auto w-full transition-all duration-300 ${
-          isModalOpen ? "blur-md" : ""
-        }`}
-      >
+      <div className="layout-content-container flex flex-col max-w-[960px] mx-auto w-full transition-all duration-300">
         <Breadcrumbs
           city={eventData.city?.name}
           category={eventData.category?.name}
         />
-        <HeroSection images={eventData.images} />
+        <HeroSection images={eventData.images} videos={eventData.videos} />
         <EventCard event={eventData} />
+        {eventData.is_limited ? (
+          <LimitedEventBanner
+            isLimited={eventData.is_limited}
+            ticketsCount={eventData.tickets_count}
+            remainingTickets={eventData.remaining_tickets}
+            startingDate={eventData.starting_date}
+            endingDate={eventData.ending_date}
+          />
+        ) : (
+          ""
+        )}
         <PriceSection
           price={eventData.price}
           eventId={Number(id)}
@@ -121,14 +130,13 @@ function MainContent() {
           entityId={Number(id)}
           feedbacks={eventData?.feedbacks}
           currentUserId={user?.id}
+          onUserModalToggle={setIsUserModalOpen}
         />
-        <RelatedExperiences />
-      </div>
 
-      {/* Modal backdrop overlay when modal is open */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
-      )}
+        <RelatedExperiences />
+
+        <RelatedGuides eventId={Number(id)} />
+      </div>
     </main>
   );
 }

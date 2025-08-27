@@ -154,10 +154,10 @@ export default function EmptyState({ type }) {
               : "opacity-0 transform translate-y-4"
           }`}
         >
-          <h3 className="text-[#101918] text-2xl font-bold leading-tight tracking-[-0.015em] text-center">
+          <h3 className="text-[#101918] dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] text-center">
             {title}
           </h3>
-          <p className="text-[#578e85] text-base font-normal leading-relaxed text-center max-w-[400px]">
+          <p className="text-[#578e85] dark:text-gray-300 text-base font-normal leading-relaxed text-center max-w-[400px]">
             {description}
           </p>
         </div>
@@ -173,7 +173,7 @@ export default function EmptyState({ type }) {
           >
             <button
               onClick={handleClick}
-              className={`group relative overflow-hidden bg-gradient-to-r ${primaryColor} text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl active:scale-95`}
+              className={`group cursor-pointer relative overflow-hidden bg-gradient-to-r ${primaryColor} text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl active:scale-95`}
             >
               {/* Button Background Animation */}
               <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>

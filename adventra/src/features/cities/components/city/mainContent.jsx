@@ -6,6 +6,7 @@ import CityInfoSection from "./MainContent/InfoSection/infoSection";
 import EventsSection from "./MainContent/EventInTheCity/EventsSection";
 import GuidesSection from "./MainContent/Guide/guidesSection";
 import { OneCityService } from "../../api/oneCityService";
+
 const MainContent = () => {
   const { id } = useParams();
 
@@ -23,7 +24,7 @@ const MainContent = () => {
   console.log("ccccccccc", city.country?.name);
 
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-white dark:bg-[#1a1f2e]">
       {/* Custom CSS for animations */}
       <style jsx>{`
         @keyframes fade-in-up {

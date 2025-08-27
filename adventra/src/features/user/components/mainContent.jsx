@@ -290,7 +290,7 @@ export default function MainContent() {
           <div className="transform transition-all duration-700 delay-500">
             <div className="bg-gradient-to-r from-[#519489] to-[#6ba59b] rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 hover:scale-105">
               <div className="p-6 text-white">
-                <h3 className="text-white dark:text-black text-2xl font-bold leading-tight tracking-[-0.015em] mb-4 flex items-center gap-3">
+                <h3 className="text-white dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] mb-4 flex items-center gap-3">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                     <span className="text-lg">★</span>
                   </div>

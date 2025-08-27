@@ -61,9 +61,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
             <div
               className="w-full h-full bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110 group-hover:rotate-1"
               style={{
-                backgroundImage: `url(${
-                  tour.image || tour.images?.[0]?.url || "/assets/hero-img.png"
-                })`,
+                backgroundImage: `url(${tour.image || tour.images?.[0]?.url})`,
               }}
             />
 
@@ -82,7 +80,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
                   "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
               }}
             >
-              <span>From ${tour.price || "299"}</span>
+              <span> ${tour.price || "no price"}</span>
             </div>
 
             {/* Rating badge */}
@@ -98,7 +96,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
                   <svg
                     key={i}
                     className={`w-3 h-3 ${
-                      i < (tour.rating || 4)
+                      i < (tour.rate || 4)
                         ? "text-amber-400"
                         : "text-gray-300 dark:text-gray-600"
                     }`}
@@ -110,7 +108,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
                 ))}
               </div>
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                {tour.rating || "4.5"}
+                {tour.rate}
               </span>
             </div>
           </div>
@@ -154,7 +152,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span>{tour.duration || "3-5 days"}</span>
+                <span>{tour.starting_date}</span>
               </div>
               <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-xs">
                 <svg
@@ -164,7 +162,7 @@ const TourCard = ({ tour, index, onTourClick }) => {
                 >
                   <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
                 </svg>
-                <span>{tour.groupSize || "8-12 people"}</span>
+                <span>{tour.remaining_tickets} tickets remain</span>
               </div>
             </div>
 

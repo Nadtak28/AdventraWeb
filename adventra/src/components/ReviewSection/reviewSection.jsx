@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AnimatedSection from "../../features/tour/components/mainContent/animatedSection";
+import AnimatedSection from "../../features/tours/components/tour/mainContent/animatedSection";
 import { Star, Pencil, Trash2, Send, X } from "lucide-react";
 import {
   CreateFeedbackService,
@@ -25,6 +25,7 @@ export default function ReviewsSection({
   entityId,
   feedbacks,
   currentUserId,
+  onUserModalToggle, // New prop to handle modal state at parent level
 }) {
   const dispatch = useDispatch();
 
@@ -55,8 +56,15 @@ export default function ReviewsSection({
   // Flag to prevent auto-filling after user cancels
   const [manualCancel, setManualCancel] = useState(false);
 
-  // Modal state
+  // Modal state - now controlled by parent
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // Notify parent when modal state changes
+  useEffect(() => {
+    if (onUserModalToggle) {
+      onUserModalToggle(!!selectedUser);
+    }
+  }, [selectedUser, onUserModalToggle]);
 
   // Detect current user's feedback (if any)
   const myFeedback = useMemo(
@@ -182,13 +190,13 @@ export default function ReviewsSection({
 
   return (
     <AnimatedSection delay={500}>
-      <section className="mt-12">
-        <div className="flex items-end justify-between mb-6">
+      <section className="mt-12 bg-gradient-to-br dark:bg-[#1a1f2e]">
+        <div className="flex items-end justify -between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2x l dark:text-white font-bold text-gray-900">
               What Travelers Say
             </h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm dark:text-white text-gray-600 mt-1">
               {items.length} review{items.length !== 1 ? "s" : ""} • Avg{" "}
               {averageRating}/5
             </p>
@@ -199,9 +207,9 @@ export default function ReviewsSection({
         </div>
 
         {/* CREATE FORM */}
-        <div className="bg-white border border-gray-100 p-5 rounded-2xl mb-8 shadow-sm">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-700 p-5 rounded-2xl mb-8 shadow-sm">
           <form onSubmit={handleCreate} className="grid gap-3">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 dark:text-white">
               Add your review
             </label>
             <StarPicker
@@ -211,7 +219,7 @@ export default function ReviewsSection({
               setHover={setHoverRating}
             />
             <textarea
-              className="w-full rounded-xl border border-gray-200 p-3 focus:ring-2 focus:ring-[#519489] focus:border-transparent outline-none"
+              className="w-full rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-[#519489] focus:border-transparent outline-none"
               rows={3}
               placeholder="Share your experience..."
               value={newComment}
@@ -239,7 +247,7 @@ export default function ReviewsSection({
             return (
               <div
                 key={feedback.id}
-                className="bg-white p-6 rounded-2xl shadow-sm"
+                className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 p-6 rounded-2xl shadow-sm"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div
@@ -257,12 +265,12 @@ export default function ReviewsSection({
                     )}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
                       {feedback.user?.name}
                     </h4>
                     <div className="flex items-center gap-2">
                       <DisplayStars value={feedback.rating} />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {feedback.rating}
                       </span>
                     </div>
@@ -271,15 +279,15 @@ export default function ReviewsSection({
                     <div className="flex gap-2">
                       <button
                         onClick={() => startEdit(feedback)}
-                        className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50"
+                        className="p-2 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                         title="Edit"
                       >
-                        <Pencil className="w-4 h-4" />
+                        <Pencil className="w-4 h-4 dark:text-white" />
                       </button>
                       <button
                         onClick={() => handleDelete(feedback.id)}
                         disabled={deleting}
-                        className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-red-600"
+                        className="p-2 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600"
                         title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -290,7 +298,7 @@ export default function ReviewsSection({
 
                 {!isEditing ? (
                   <>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                       {feedback.comment}
                     </p>
                     <p className="text-xs text-gray-400 mt-4">
@@ -302,13 +310,13 @@ export default function ReviewsSection({
                 ) : (
                   <form onSubmit={handleUpdate} className="grid gap-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-sm font-medium text-gray-700 dark:text-white">
                         Update your review
                       </span>
                       <button
                         type="button"
                         onClick={cancelEdit}
-                        className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+                        className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                       >
                         <X className="w-4 h-4" />
                         Cancel
@@ -321,7 +329,7 @@ export default function ReviewsSection({
                       setHover={setEditHover}
                     />
                     <textarea
-                      className="w-full rounded-xl border border-gray-200 p-3 focus:ring-2 focus:ring-[#519489] focus:border-transparent outline-none"
+                      className="w-full rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-[#519489] focus:border-transparent outline-none"
                       rows={3}
                       value={editComment}
                       onChange={(e) => setEditComment(e.target.value)}
@@ -340,12 +348,18 @@ export default function ReviewsSection({
           })}
         </div>
 
-        {/* USER MODAL */}
+        {/* USER MODAL - Render modal content only */}
         {selectedUser && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl p-6 flex flex-col items-center max-w-sm w-full relative">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            onClick={() => setSelectedUser(null)}
+          >
+            <div
+              className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 flex flex-col items-center max-w-sm w-full relative mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
               <button
-                className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                className="absolute top-3 right-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                 onClick={() => setSelectedUser(null)}
               >
                 <X className="w-5 h-5" />
@@ -361,7 +375,7 @@ export default function ReviewsSection({
                   {selectedUser.name?.charAt(0) || "A"}
                 </div>
               )}
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {selectedUser.name}
               </h3>
             </div>

@@ -19,7 +19,7 @@ const SectionHeader = ({ title, description }) => {
         }`}
       >
         <div className="flex flex-wrap justify-between gap-3 p-6 dark:bg-[#1a1f2e] bg-white/80 backdrop-blur-sm">
-          <h1 className=" tracking-tight text-4xl md:text-5xl font-bold leading-tight min-w-72 bg-gradient-to-r from-[#121416] to-[#519489] bg-clip-text text-transparent">
+          <h1 className=" tracking-tight text-4xl md:text-5xl font-bold leading-tight min-w-72 bg-gradient-to-r dark:from-white dark:to-[#519489]  from-[#121416] to-[#519489] bg-clip-text text-transparent">
             {title}
           </h1>
         </div>

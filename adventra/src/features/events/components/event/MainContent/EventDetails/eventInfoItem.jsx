@@ -11,8 +11,10 @@ function EventInfoItem({
 
   return (
     <div
-      className={`flex items-center gap-4 bg-[#f8fbfb] px-4 min-h-14 justify-between transition-all duration-300 ${
-        onClick ? "cursor-pointer hover:bg-[#e8f2f1]" : ""
+      className={`flex items-center gap-4 dark:bg-[#1a1f2e] bg-[#f8fbfb] px-4 min-h-14 justify-between transition-all duration-300 ${
+        onClick
+          ? "cursor-pointer hover:bg-[#e8f2f1] dark:hover:bg-[#1a1f2e]"
+          : ""
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -23,10 +25,12 @@ function EventInfoItem({
         <p className="text-[#519489] text-base font-normal">{label}</p>
       </div>
       <div className="flex items-center justify-end gap-2">
-        <span className="text-[#0e1a18] text-base font-normal">{value}</span>
+        <span className="text-[#0e1a18] dark:text-white text-base font-normal">
+          {value}
+        </span>
         {arrow && (
           <div
-            className={`shrink-0 transform transition-transform duration-200 ${
+            className={`shrink-0 transform  dark:text-[#519489] transition-transform duration-200 ${
               isHovered ? "translate-x-1" : ""
             }`}
           >

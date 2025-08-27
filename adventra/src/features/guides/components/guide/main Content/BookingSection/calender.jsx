@@ -133,7 +133,7 @@ const Calendar = ({ onDateSelect, guideId, availability }) => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transform transition-all duration-500 hover:shadow-xl animate-slideUp">
+      <div className="from-white bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-6 border border-gray-100 transform transition-all duration-500 hover:shadow-xl animate-slideUp">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <button
@@ -149,7 +149,7 @@ const Calendar = ({ onDateSelect, guideId, availability }) => {
             </svg>
           </button>
 
-          <h3 className="text-xl font-bold text-gray-900">
+          <h3 className="text-xl font-bold dark:text-white text-gray-900">
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h3>
 

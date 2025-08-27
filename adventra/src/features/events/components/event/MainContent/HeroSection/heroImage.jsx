@@ -1,40 +1,80 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function HeroImage({ images = [] }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageLoaded, setImageLoaded] = useState(false);
+function HeroImage({ images = [], videos = [] }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const videoRef = useRef(null);
 
-  const hasValidImages = images && images.length > 0 && images[0]?.url;
-  const imageUrl = hasValidImages
-    ? images[currentImageIndex]?.url
-    : "/assets/hero-img.png";
+  // Combine into one slides array
+  const slides = [
+    ...images.map((img) => ({ type: "image", url: img.url?.[0] })),
+    ...videos.map((vid) => ({ type: "video", url: vid.url?.[0] })),
+  ];
 
+  const currentSlide = slides[currentIndex];
+
+  // Handle auto-next for images
   useEffect(() => {
-    if (hasValidImages && images.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    if (!currentSlide) return;
+    if (currentSlide.type === "image") {
+      const timer = setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % slides.length);
       }, 5000);
-      return () => clearInterval(interval);
+      return () => clearTimeout(timer);
     }
-  }, [images, hasValidImages]);
+  }, [currentIndex, slides, currentSlide]);
+
+  // Handle auto-next after video ends
+  useEffect(() => {
+    if (currentSlide?.type === "video" && videoRef.current) {
+      const videoEl = videoRef.current;
+      const handleEnded = () => {
+        setCurrentIndex((prev) => (prev + 1) % slides.length);
+      };
+      videoEl.addEventListener("ended", handleEnded);
+      return () => videoEl.removeEventListener("ended", handleEnded);
+    }
+  }, [currentSlide, slides]);
 
   return (
     <div className="relative overflow-hidden rounded-xl">
-      <div
-        className={`w-full h-[500px] bg-center bg-no-repeat bg-cover rounded-xl transition-all duration-1000 ${
-          imageLoaded ? "scale-100 opacity-100" : "scale-105 opacity-0"
-        }`}
-        style={{
-          backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url("${imageUrl}")`,
-        }}
-        onLoad={() => setImageLoaded(true)}
-      />
-      {hasValidImages && images.length > 1 && (
+      {currentSlide?.type === "image" && (
+        <div
+          className={`w-full h-[500px] bg-center bg-no-repeat bg-cover rounded-xl transition-all duration-1000 ${
+            loaded ? "scale-100 opacity-100" : "scale-105 opacity-0"
+          }`}
+          style={{
+            backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url("${currentSlide.url}")`,
+          }}
+        >
+          {/* hidden img just to detect load */}
+          <img
+            src={currentSlide.url}
+            alt=""
+            className="hidden"
+            onLoad={() => setLoaded(true)}
+          />
+        </div>
+      )}
+
+      {currentSlide?.type === "video" && (
+        <video
+          ref={videoRef}
+          className="w-full h-[500px] object-cover rounded-xl"
+          autoPlay
+          controls={false}
+          muted
+        >
+          <source src={currentSlide.url} type="video/mp4" />
+        </video>
+      )}
+
+      {slides.length > 1 && (
         <>
           <button
             onClick={() =>
-              setCurrentImageIndex((prev) =>
-                prev === 0 ? images.length - 1 : prev - 1
+              setCurrentIndex((prev) =>
+                prev === 0 ? slides.length - 1 : prev - 1
               )
             }
             className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-all duration-200"
@@ -55,7 +95,7 @@ function HeroImage({ images = [] }) {
           </button>
           <button
             onClick={() =>
-              setCurrentImageIndex((prev) => (prev + 1) % images.length)
+              setCurrentIndex((prev) => (prev + 1) % slides.length)
             }
             className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-all duration-200"
           >
@@ -78,4 +118,5 @@ function HeroImage({ images = [] }) {
     </div>
   );
 }
+
 export default HeroImage;

@@ -115,7 +115,11 @@ const TopEventCard = ({ event, index, onEventClick }) => {
               group-hover:scale-105"
             style={{
               backgroundImage: `url(${
-                event.image || event.images?.[0]?.url || "/assets/hero-img.png"
+                event.image ||
+                event.images?.[0]?.url ||
+                event.videos ||
+                event.videos?.[0].url ||
+                "https://via.placeholder.com/800x600?text=No+Image+Available"
               })`,
             }}
           />
@@ -124,7 +128,11 @@ const TopEventCard = ({ event, index, onEventClick }) => {
               transition-all duration-[800ms] ease-out group-hover:scale-[1.08]"
             style={{
               backgroundImage: `url(${
-                event.image || event.images?.[0]?.url || "/assets/hero-img.png"
+                event.image ||
+                event.images?.[0]?.url ||
+                event.videos ||
+                event.videos?.[0].url ||
+                "https://via.placeholder.com/800x600?text=No+Image+Available"
               })`,
             }}
           />
@@ -133,7 +141,11 @@ const TopEventCard = ({ event, index, onEventClick }) => {
               transition-all duration-[800ms] ease-out group-hover:scale-[1.12]"
             style={{
               backgroundImage: `url(${
-                event.image || event.images?.[0]?.url || "/assets/hero-img.png"
+                event.image ||
+                event.images?.[0]?.url ||
+                event.videos ||
+                event.videos?.[0].url ||
+                "https://via.placeholder.com/800x600?text=No+Image+Available"
               })`,
             }}
           />
@@ -169,7 +181,7 @@ const TopEventCard = ({ event, index, onEventClick }) => {
               >
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
-              <span>{event.rating || "4.9"}</span>
+              <span>{event.rate || "no rate"}</span>
             </div>
           </div>
         </div>
@@ -181,17 +193,6 @@ const TopEventCard = ({ event, index, onEventClick }) => {
             p-6 flex flex-col border-t border-white/20 dark:border-gray-700/30"
           >
             <div className="mb-4">
-              <div
-                className="flex items-center gap-1.5 mb-2 text-xs font-semibold
-                text-emerald-600 dark:text-[#519489] uppercase tracking-wide"
-              >
-                <div
-                  className="w-1.5 h-1.5 bg-emerald-600 dark:bg-[#519489] rounded-full
-                  animate-[dotPulse_2s_infinite]"
-                />
-                <span>{event.category || "Featured Event"}</span>
-              </div>
-
               <h3
                 className="text-lg font-bold text-gray-900 dark:text-white leading-tight mb-4
                 group-hover:text-emerald-600 dark:group-hover:text-[#519489] transition-colors duration-300"
@@ -222,13 +223,7 @@ const TopEventCard = ({ event, index, onEventClick }) => {
                       Date
                     </div>
                     <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">
-                      {new Date(event.date || Date.now()).toLocaleDateString(
-                        "en",
-                        {
-                          month: "short",
-                          day: "numeric",
-                        }
-                      )}
+                      {event.is_limited ? event.starting_date : "no start date"}
                     </div>
                   </div>
                 </div>
@@ -252,37 +247,10 @@ const TopEventCard = ({ event, index, onEventClick }) => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                      Time
+                      Finish
                     </div>
                     <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">
-                      {event.time || "7:00 PM"}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-7 h-7 bg-gradient-to-br from-emerald-600/10 to-emerald-500/5 
-                    rounded-md flex items-center justify-center text-emerald-600 dark:text-[#519489]"
-                  >
-                    <svg
-                      className="w-3 h-3"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                      Location
-                    </div>
-                    <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">
-                      {event.location || "Downtown"}
+                      {event.is_limited ? event.ending_date : "no end date"}
                     </div>
                   </div>
                 </div>
@@ -305,7 +273,7 @@ const TopEventCard = ({ event, index, onEventClick }) => {
                       Attendees
                     </div>
                     <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">
-                      {event.attendees || "450+"}
+                      {event.is_limited ? event.remaining_tickets : "attend"}
                     </div>
                   </div>
                 </div>
@@ -315,9 +283,6 @@ const TopEventCard = ({ event, index, onEventClick }) => {
             {/* Interactive price and booking section */}
             <div className="flex items-center justify-between gap-4 mt-5">
               <div>
-                <div className="text-[11px] text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-0.5">
-                  From
-                </div>
                 <div className="flex items-baseline gap-0.5 text-emerald-600 dark:text-[#519489] font-bold">
                   <span className="text-sm">$</span>
                   <span className="text-xl">{event.price || "85"}</span>

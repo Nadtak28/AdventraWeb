@@ -14,6 +14,7 @@ const MainContent = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
   // Guide details from the main guides slice
   const {
@@ -56,7 +57,7 @@ const MainContent = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen dark:bg-[#1a1f2e] flex items-center justify-center">
         <LoadingSpinner size="lg" text="Loading guide details..." />
       </div>
     );
@@ -90,11 +91,11 @@ const MainContent = () => {
   if (!guide) return null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen dark:bg-[#1a1f2e] bg-white">
       {/* Hero Section with animated background */}
-      <div className="relative overflow-hidden bg-white">
+      <div className="relative overflow-hidden dark:bg-[#1a1f2e] bg-white">
         {/* Background decorative elements */}
-        <div className="absolute inset-0 bg-white"></div>
+        <div className="absolute inset-0 dark:bg-[#1a1f2e] bg-white"></div>
 
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#519489]/5 rounded-full -translate-y-48 translate-x-48 animate-pulse"></div>
         <div
@@ -102,18 +103,25 @@ const MainContent = () => {
           style={{ animationDelay: "1s" }}
         ></div>
 
-        <div className="relative px-4 sm:px-8 md:px-12 lg:px-20 xl:px-40 py-12">
+        <div
+          className={`relative px-4 sm:px-8 md:px-12 lg:px-20 xl:px-40 py-12 transition-all duration-300 ${
+            isModalOpen ? "blur-md" : ""
+          }`}
+        >
           <div className="max-w-6xl mx-auto space-y-12">
             {/* Breadcrumb navigation */}
             <nav className="animate-slideRight">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <a href="/" className="hover:text-[#519489] transition-colors">
+                <a
+                  href="/"
+                  className="hover:text-[#519489] dark:text-white transition-colors"
+                >
                   Home
                 </a>
                 <span>/</span>
                 <a
                   href="/guides"
-                  className="hover:text-[#519489] transition-colors"
+                  className="hover:text-[#519489] dark:text-white transition-colors"
                 >
                   Guides
                 </a>
@@ -123,7 +131,7 @@ const MainContent = () => {
             </nav>
 
             {/* Guide Profile Section */}
-            <section className="bg-white">
+            <section className="bg-white dark:bg-[#1a1f2e]">
               <GuideProfile guide={guide} />
             </section>
 
@@ -150,6 +158,7 @@ const MainContent = () => {
                 entityId={Number(id)}
                 feedbacks={guide?.feedbacks}
                 currentUserId={user?.id}
+                onUserModalToggle={setIsUserModalOpen}
               />
             </section>
 
@@ -161,7 +170,7 @@ const MainContent = () => {
         </div>
       </div>
 
-      {/* Modal backdrop overlay when modal is open */}
+      {/* Modal backdrop overlay when booking modal is open - Only for booking modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
       )}

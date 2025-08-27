@@ -32,9 +32,11 @@ const ToursSection = ({
       if (sectionType === "latest") {
         dispatch(updateFilter({ filterType: "order_type", value: "DESC" }));
         dispatch(updateFilter({ filterType: "orderBy", value: "created_at" }));
+        dispatch(updateFilter({ filterType: "status", value: "pending" }));
       } else if (sectionType === "top-rated") {
         dispatch(updateFilter({ filterType: "order_type", value: "DESC" }));
         dispatch(updateFilter({ filterType: "orderBy", value: "rating" }));
+        dispatch(updateFilter({ filterType: "status", value: "finished" }));
       }
 
       // Create search params for the API call
@@ -52,6 +54,12 @@ const ToursSection = ({
             : sectionType === "top-rated"
             ? "rating"
             : "created_at",
+        status:
+          sectionType === "top-rated"
+            ? "finished"
+            : sectionType === "latest"
+            ? "pending"
+            : "pending",
       };
 
       // Execute the search and wait for it to complete

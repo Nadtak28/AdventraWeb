@@ -13,7 +13,7 @@ function Breadcrumbs({ city, category }) {
         <span className="text-[#519489] text-base font-medium">
           {category || <LoadingSkeleton className="w-16 h-4" />}
         </span>
-        <span className="text-[#0e1a18] text-base font-medium">
+        <span className="text-[#0e1a18] dark:text-white text-base font-medium">
           Experiences
         </span>
       </div>

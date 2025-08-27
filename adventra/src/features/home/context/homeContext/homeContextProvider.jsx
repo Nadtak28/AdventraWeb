@@ -37,11 +37,19 @@ export default function HomeContextProvider({ children }) {
   }, [dispatch, status]);
 
   if (status === "loading") {
-    return <p>Loading home data...</p>;
+    return (
+      <p className="bg-white dark:bg-[#1a1f2e] dark:text-white ">
+        Loading home data...
+      </p>
+    );
   }
 
   if (status === "failed") {
-    return <p>Error loading data: {error}</p>;
+    return (
+      <p className="bg-white dark:bg-[#1a1f2e] dark:text-white ">
+        Error loading data: {error}
+      </p>
+    );
   }
 
   return (

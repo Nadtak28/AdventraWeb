@@ -1,24 +1,43 @@
 import GuideCard from "./guideCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const GuideGrid = ({ guides }) => {
   const [visibleCards, setVisibleCards] = useState([]);
 
+  // Memoize guides to prevent unnecessary re-renders
+  const memoizedGuides = useMemo(() => guides, [guides]);
+
   useEffect(() => {
-    // Staggered animation for cards appearing
-    guides.forEach((_, index) => {
+    // Only animate new cards that haven't been shown yet
+    const newCardIndexes = [];
+
+    memoizedGuides.forEach((_, index) => {
+      if (!visibleCards.includes(index)) {
+        newCardIndexes.push(index);
+      }
+    });
+
+    // Staggered animation for new cards only
+    newCardIndexes.forEach((index, animationIndex) => {
       setTimeout(() => {
         setVisibleCards((prev) => [...prev, index]);
-      }, index * 150);
+      }, animationIndex * 150);
     });
-  }, [guides]);
+  }, [memoizedGuides, visibleCards]);
+
+  // Reset visible cards when guides array is completely refreshed (like on page reload)
+  useEffect(() => {
+    if (memoizedGuides.length === 0) {
+      setVisibleCards([]);
+    }
+  }, [memoizedGuides.length]);
 
   return (
     <div className="px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12">
-        {guides.map((guide, index) => (
+        {memoizedGuides.map((guide, index) => (
           <div
-            key={guide.id || index}
+            key={guide.id || `guide-${index}`}
             className={`transform transition-all duration-700 ease-out ${
               visibleCards.includes(index)
                 ? "translate-y-0 opacity-100 scale-100"

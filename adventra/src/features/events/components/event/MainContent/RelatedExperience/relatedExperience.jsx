@@ -27,7 +27,7 @@ function RelatedExperiences() {
   if (loadingRelated) {
     return (
       <section className="layout-content-container flex flex-col max-w-[960px] flex-1 px-4">
-        <h3 className="text-[#0e1a18] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
+        <h3 className="text-[#0e1a18] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
           Related experiences
         </h3>
         <div className="flex overflow-x-auto scrollbar-hide p-4 gap-3">
@@ -42,7 +42,7 @@ function RelatedExperiences() {
   if (errorRelated) {
     return (
       <section className="layout-content-container flex flex-col max-w-[960px] flex-1 px-4">
-        <h3 className="text-[#0e1a18] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
+        <h3 className="text-[#0e1a18] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
           Related experiences
         </h3>
         <p className="text-red-500 text-sm px-4">
@@ -57,7 +57,7 @@ function RelatedExperiences() {
       delay={650}
       className="layout-content-container flex flex-col max-w-[960px] flex-1 px-4"
     >
-      <h3 className="text-[#0e1a18] text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
+      <h3 className="text-[#0e1a18] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pb-2 pt-4">
         Related experiences
       </h3>
       <div className="flex overflow-x-auto scrollbar-hide p-4 gap-3">
@@ -68,30 +68,7 @@ function RelatedExperiences() {
             event={event}
             index={index}
           />
-        )) ||
-          // Fallback experiences if no related events
-          [
-            {
-              id: 1,
-              name: "Golden Gate Bridge Walking Tour",
-              category: { name: "Tours" },
-              price: "45.00",
-            },
-            {
-              id: 2,
-              name: "Alcatraz Island Ferry",
-              category: { name: "Historical" },
-              price: "65.00",
-            },
-            {
-              id: 3,
-              name: "Lombard Street Exploration",
-              category: { name: "City Tours" },
-              price: "35.00",
-            },
-          ].map((event, index) => (
-            <ExperienceCard key={event.id} event={event} index={index} />
-          ))}
+        ))}
       </div>
     </AnimatedSection>
   );

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CitiesService } from "../api/citiesService";
+import { CitiesService, LoadMoreCitiesService } from "../api/citiesService";
 import { OneCityService } from "../api/oneCityService";
 import { CityEventsService } from "../api/cityEventService";
 import { CityGuidesService } from "../api/cityGuideService";
@@ -9,32 +9,64 @@ const citySlice = createSlice({
   initialState: {
     list: [],
     loadingList: false,
+    loadingMore: false, // New loading state for pagination
     errorList: null,
-
+    currentPage: 1,
+    hasNextPage: false,
+    totalPages: 0,
     detail: {},
     loadingDetail: false,
     errorDetail: null,
-
     events: [],
     loadingEvents: false,
     errorEvents: null,
-
     guides: [],
     loadingGuides: false,
     errorGuides: null,
   },
+  reducers: {
+    resetCities: (state) => {
+      state.list = [];
+      state.currentPage = 1;
+      state.hasNextPage = false;
+      state.totalPages = 0;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      // Cities list
+      // Initial cities list
       .addCase(CitiesService.pending, (state) => {
         state.loadingList = true;
+        state.errorList = null;
       })
       .addCase(CitiesService.fulfilled, (state, action) => {
         state.loadingList = false;
         state.list = action.payload.data;
+        state.currentPage = action.payload.currentPage;
+        state.hasNextPage =
+          action.payload.currentPage < action.payload.meta.last_page;
+        state.totalPages = action.payload.meta.last_page;
       })
       .addCase(CitiesService.rejected, (state, action) => {
         state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
+      // Load more cities (pagination)
+      .addCase(LoadMoreCitiesService.pending, (state) => {
+        state.loadingMore = true;
+      })
+      .addCase(LoadMoreCitiesService.fulfilled, (state, action) => {
+        state.loadingMore = false;
+        // Append new cities to existing list
+        state.list = [...state.list, ...action.payload.data];
+        state.currentPage = action.payload.currentPage;
+        state.hasNextPage =
+          action.payload.currentPage < action.payload.meta.last_page;
+        state.totalPages = action.payload.meta.last_page;
+      })
+      .addCase(LoadMoreCitiesService.rejected, (state, action) => {
+        state.loadingMore = false;
         state.errorList = action.payload;
       })
 
@@ -79,4 +111,5 @@ const citySlice = createSlice({
   },
 });
 
+export const { resetCities } = citySlice.actions;
 export default citySlice.reducer;

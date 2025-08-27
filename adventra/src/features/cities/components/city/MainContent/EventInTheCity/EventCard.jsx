@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 const EventCard = ({ event, index }) => {
   const navigate = useNavigate();
+
   function onClick(event) {
     navigate(`/events/${event.id}`);
   }
+
   return (
     <div
       onClick={() => onClick(event)}
-      className={`border-2 border-[#519489]/20 bg-white rounded-xl shadow-sm hover:shadow-lg flex flex-col overflow-hidden min-w-[200px] max-w-[220px] snap-start cursor-pointer transform transition-all duration-500 hover:scale-105 hover:border-[#519489]/60 opacity-0 animate-slide-in-right group`}
+      className={`border-2 border-[#519489]/20 bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-xl shadow-sm hover:shadow-lg flex flex-col overflow-hidden min-w-[200px] max-w-[220px] snap-start cursor-pointer transform transition-all duration-500 hover:scale-105 hover:border-[#519489]/60 opacity-0 animate-slide-in-right group`}
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div
@@ -18,7 +20,7 @@ const EventCard = ({ event, index }) => {
           backgroundImage: `url("${
             event.image ||
             event.images?.[0]?.url ||
-            "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=200&fit=crop"
+            "https://placehold.co/500x300?text=No+Image+Available"
           }")`,
         }}
       >
@@ -30,10 +32,10 @@ const EventCard = ({ event, index }) => {
         </div>
       </div>
       <div className="p-4 space-y-2 flex-1">
-        <h3 className="text-[#101918] text-sm font-semibold truncate group-hover:text-[#519489] transition-colors duration-300">
+        <h3 className="text-[#101918] dark:text-white text-sm font-semibold truncate group-hover:text-[#519489] transition-colors duration-300">
           {event.title || event.name || "Upcoming Event"}
         </h3>
-        <p className="text-[#519489]/80 text-xs line-clamp-2 leading-relaxed">
+        <p className="text-[#519489]/80 dark:text-white/80 text-xs line-clamp-2 leading-relaxed">
           {event.description ||
             "Discover amazing events in this beautiful city"}
         </p>
@@ -41,4 +43,5 @@ const EventCard = ({ event, index }) => {
     </div>
   );
 };
+
 export default EventCard;

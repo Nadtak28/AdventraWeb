@@ -64,40 +64,74 @@ export default function MainContent() {
     }
   }, [guideCategories]);
 
-  const transformedLatestTours = latestTours.map((tour) => ({
-    ...tour,
-    title: tour.name,
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-  }));
+  const transformedLatestTours = latestTours.map((tour) => {
+    const imageUrl = tour.images?.[0]?.url?.[0];
+    const videoUrl = tour.videos?.[0]?.url?.[0];
 
-  const transformedTopRatedTours = topRatedTours.map((tour) => ({
-    ...tour,
-    title: tour.name,
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-  }));
+    return {
+      ...tour,
+      title: tour.name,
+      image:
+        imageUrl ||
+        videoUrl ||
+        "https://placehold.co/500x300?text=No+Image+Available", // fallback skeleton-like placeholder
+    };
+  });
 
-  const transformedFeaturedCities = featuredCities.map((city) => ({
-    ...city,
-    title: city.name,
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-  }));
+  const transformedTopRatedTours = topRatedTours.map((tour) => {
+    const imageUrl = tour.images?.[0]?.url?.[0];
+    const videoUrl = tour.videos?.[0]?.url?.[0];
 
-  const transformedLatestEvents = latestevents.map((event) => ({
-    ...event,
-    title: event.name,
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-  }));
+    return {
+      ...tour,
+      title: tour.name,
+      image:
+        imageUrl ||
+        videoUrl ||
+        "https://placehold.co/500x300?text=No+Image+Available", // fallback skeleton-like placeholder
+    };
+  });
+  const transformedFeaturedCities = featuredCities.map((city) => {
+    const imageUrl = city.images?.[0]?.url?.[0];
+    const videoUrl = city.videos?.[0]?.url?.[0];
 
-  const transformedTopEvents = topEvents.map((event) => ({
-    ...event,
-    title: event.name,
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-  }));
+    return {
+      ...city,
+      title: city.name,
+      image:
+        imageUrl ||
+        videoUrl ||
+        "https://placehold.co/500x300?text=No+Image+Available",
+    };
+  });
+
+  const transformedLatestEvents = latestevents.map((event) => {
+    const imageUrl = event.images?.[0]?.url?.[0];
+    const videoUrl = event.videos?.[0]?.url?.[0];
+
+    return {
+      ...event,
+      title: event.name,
+      image:
+        imageUrl ||
+        videoUrl ||
+        "https://placehold.co/500x300?text=No+Image+Available",
+    };
+  });
+
+  const transformedTopEvents = topEvents.map((event) => {
+    const imageUrl = event.images?.[0]?.url?.[0];
+    const videoUrl = event.videos?.[0]?.url?.[0];
+
+    return {
+      ...event,
+      title: event.name,
+      image:
+        imageUrl ||
+        videoUrl ||
+        "https://placehold.co/500x300?text=No+Image+Available",
+    };
+  });
 
   // Compute filtered events for the CardList under tabs
   const getFilteredEvents = () => {
@@ -108,13 +142,20 @@ export default function MainContent() {
     );
 
     return categoryObj
-      ? categoryObj.events.map((event) => ({
-          id: event.id,
-          title: event.name,
-          description: event.description,
-          image:
-            "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-        }))
+      ? categoryObj.events.map((event) => {
+          const imageUrl = event.images?.[0]?.url?.[0];
+          const videoUrl = event.videos?.[0]?.url?.[0];
+
+          return {
+            id: event.id,
+            title: event.name,
+            description: event.description,
+            image:
+              imageUrl ||
+              videoUrl ||
+              "https://placehold.co/500x300?text=No+Image+Available",
+          };
+        })
       : [];
   };
 
@@ -132,26 +173,39 @@ export default function MainContent() {
 
   const getFilteredGuides = () => {
     if (!selectedGuideCategory || guideCategories.length === 0) {
-      return uniqueGuides.map((guide) => ({
-        id: guide.id,
-        title: guide.name,
-        description: guide.description,
-        image:
-          "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-      }));
+      return uniqueGuides.map((guide) => {
+        const imageUrl = guide.images?.[0]?.url?.[0];
+        const videoUrl = guide.videos?.[0]?.url?.[0];
+
+        return {
+          id: guide.id,
+          title: guide.name,
+          description: guide.description,
+          image:
+            imageUrl ||
+            videoUrl ||
+            "https://placehold.co/500x300?text=No+Image+Available",
+        };
+      });
     }
 
     return uniqueGuides
       .filter((guide) =>
         guide.categories?.some((cat) => cat.name === selectedGuideCategory)
       )
-      .map((guide) => ({
-        id: guide.id,
-        title: guide.name,
-        description: guide.description,
-        image:
-          "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-      }));
+      .map((guide) => {
+        const imageUrl = guide.images?.[0]?.url?.[0];
+        const videoUrl = guide.videos?.[0]?.url?.[0];
+        return {
+          id: guide.id,
+          title: guide.name,
+          description: guide.description,
+          image:
+            imageUrl ||
+            videoUrl ||
+            "https://placehold.co/500x300?text=No+Image+Available",
+        };
+      });
   };
 
   const filteredGuides = getFilteredGuides();
@@ -277,7 +331,7 @@ export default function MainContent() {
 
   return (
     <main className="bg-white dark:bg-[#1a1f2e] min-h-screen">
-      <div className="w-full max-w-7xl mx-auto py-8">
+      <div className="w-full bg-white dark:bg-[#1a1f2e] max-w-7xl mx-auto py-8">
         <SearchBar placeholder="Search for tours, events, and more" />
 
         <EnhancedOfferSlider
@@ -299,7 +353,7 @@ export default function MainContent() {
         <section className="px-4 sm:px-6 md:px-8 pt-8 pb-8">
           <div className="flex items-center mb-6">
             <div className="h-1 w-12 bg-gradient-to-r from-[#519489] to-[#6ba89d] rounded-full mr-4" />
-            <h2 className="text-[#101918] dark:text-white dark:bg-gradient-to-r dark:from-white dark:via-[#6ba59b] dark:to-[#519489] dark:bg-clip-text dark:text-transparent text-2xl md:text-3xl font-bold">
+            <h2 className="text-[#101918]  dark:bg-gradient-to-r dark:from-white dark:via-[#6ba59b] dark:to-[#519489] dark:bg-clip-text dark:text-transparent text-2xl md:text-3xl font-bold">
               Events by Category
             </h2>
           </div>
@@ -339,7 +393,7 @@ export default function MainContent() {
         <section className="px-4 sm:px-6 md:px-8 pt-8 pb-8">
           <div className="flex items-center mb-6">
             <div className="h-1 w-12 bg-gradient-to-r from-[#519489] to-[#6ba89d] rounded-full mr-4" />
-            <h2 className="text-[#101918] dark:text-white dark:bg-gradient-to-r dark:from-white dark:via-[#6ba59b] dark:to-[#519489] dark:bg-clip-text dark:text-transparent text-2xl md:text-3xl font-bold">
+            <h2 className="text-[#101918]  dark:bg-gradient-to-r dark:from-white dark:via-[#6ba59b] dark:to-[#519489] dark:bg-clip-text dark:text-transparent text-2xl md:text-3xl font-bold">
               Guides by Category
             </h2>
           </div>

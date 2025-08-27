@@ -23,7 +23,11 @@ const GuideCard = ({ guide, onClick, delay = 0 }) => {
           />
           <img
             src={
-              "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop"
+              guide.image ||
+              guide.images?.[0]?.url ||
+              guide.videos ||
+              guide.videos?.[0].url ||
+              "https://via.placeholder.com/800x600?text=No+Image+Available"
             }
             alt={guide.name || guide.title}
             className="w-24 h-24 rounded-full object-cover mx-auto mb-4 transition-transform duration-500 group-hover:scale-110 relative z-10"

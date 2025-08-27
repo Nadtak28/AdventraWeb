@@ -100,7 +100,11 @@ const CityCard = ({ city, index, onCityClick }) => {
               group-hover:scale-[1.15] origin-center"
             style={{
               backgroundImage: `url(${
-                city.image || city.images?.[0]?.url || "/assets/hero-img.png"
+                city.image ||
+                city.images?.[0]?.url ||
+                city.videos ||
+                city.videos?.[0].url ||
+                "https://via.placeholder.com/800x600?text=No+Image+Available"
               })`,
             }}
           />
@@ -126,64 +130,6 @@ const CityCard = ({ city, index, onCityClick }) => {
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-600
               bg-gradient-to-br from-transparent via-white/10 to-transparent"
             />
-          </div>
-
-          {/* Floating info bubbles */}
-          <div className="absolute inset-4 pointer-events-none">
-            <div
-              className="absolute top-0 left-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-[12px] 
-              rounded-[20px] px-3 py-2 flex items-center gap-1 text-xs font-semibold 
-              text-gray-700 dark:text-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)]
-              dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-white/30 dark:border-gray-600/30
-              scale-0 translate-y-5 group-hover:scale-100 group-hover:translate-y-0
-              transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] delay-100"
-            >
-              <svg
-                className="w-3.5 h-3.5 text-emerald-600 dark:text-[#519489]"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-              </svg>
-              <span>{city.attractions || "15+"}</span>
-            </div>
-
-            <div
-              className="absolute top-0 right-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-[12px] 
-              rounded-[20px] px-3 py-2 flex items-center gap-1 text-xs font-semibold 
-              text-gray-700 dark:text-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)]
-              dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-white/30 dark:border-gray-600/30
-              scale-0 translate-y-5 group-hover:scale-100 group-hover:translate-y-0
-              transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] delay-200"
-            >
-              <svg
-                className="w-3.5 h-3.5 text-emerald-600 dark:text-[#519489]"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              <span>{city.rating || "4.8"}</span>
-            </div>
-
-            <div
-              className="absolute bottom-0 left-1/2 bg-white/95 dark:bg-gray-800/95 backdrop-blur-[12px] 
-              rounded-[20px] px-3 py-2 flex items-center gap-1 text-xs font-semibold 
-              text-gray-700 dark:text-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.1)]
-              dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-white/30 dark:border-gray-600/30
-              scale-0 translate-y-5 group-hover:scale-100 group-hover:translate-y-0
-              transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] delay-300
-              -translate-x-1/2 origin-center"
-            >
-              <svg
-                className="w-3.5 h-3.5 text-emerald-600 dark:text-[#519489]"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M9 11H7v8h2v-8zm4 0h-2v8h2v-8zm4 0h-2v8h2v-8zm2.5-5h-2.25l-.91-2H15V2H9v2H7.66l-.91 2H4.5v2h15V6z" />
-              </svg>
-              <span>{city.events || "25+"}</span>
-            </div>
           </div>
         </div>
 
@@ -221,29 +167,6 @@ const CityCard = ({ city, index, onCityClick }) => {
             {city.description}
           </p>
 
-          {/* Activity tags */}
-          <div className="flex gap-2 mb-4 flex-wrap">
-            {(city.activities || ["Culture", "Food", "Adventure"])
-              .slice(0, 3)
-              .map((activity, idx) => (
-                <span
-                  key={idx}
-                  className="
-                  bg-gradient-to-br from-emerald-600/10 to-emerald-500/5 
-                  dark:from-[#519489]/10 dark:to-emerald-300/5
-                  dark:text-[#519489]
-                  text-emerald-600  px-2.5 py-1 rounded-xl 
-                  text-[11px] font-semibold border border-emerald-600/20 dark:border-emerald-400/20
-                  transition-all duration-300 group-hover:-translate-y-0.5
-                  group-hover:bg-gradient-to-br group-hover:from-emerald-600/20 group-hover:to-emerald-500/10
-                  dark:group-hover:from-emerald-400/20 dark:group-hover:to-emerald-300/10
-                "
-                >
-                  {activity}
-                </span>
-              ))}
-          </div>
-
           {/* Stats grid */}
           <div
             className="grid grid-cols-3 gap-3 mb-5 py-3 
@@ -251,7 +174,7 @@ const CityCard = ({ city, index, onCityClick }) => {
           >
             <div className="text-center">
               <div className="text-sm font-bold text-emerald-600 dark:text-[#519489] mb-0.5">
-                {city.population || "2.5M"}
+                {city.population || "large"}
               </div>
               <div className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                 Population
@@ -259,7 +182,7 @@ const CityCard = ({ city, index, onCityClick }) => {
             </div>
             <div className="text-center">
               <div className="text-sm font-bold text-emerald-600 dark:text-[#519489] mb-0.5">
-                {city.tours || "50+"}
+                {city.tours || "lots of"}
               </div>
               <div className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                 Tours

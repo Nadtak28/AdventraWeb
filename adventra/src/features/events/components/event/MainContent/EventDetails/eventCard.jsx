@@ -15,10 +15,10 @@ function EventCard({ event }) {
       delay={300}
       className="layout-content-container flex flex-col max-w-[960px] flex-1"
     >
-      <h2 className="text-[#0e1a18] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">
+      <h2 className="text-[#0e1a18] dark:text-white tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">
         {event.name}
       </h2>
-      <p className="text-[#0e1a18] text-base font-normal leading-normal pb-3 pt-1 px-4">
+      <p className="text-[#0e1a18]  dark:text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
         {event.description}
       </p>
       <div className="space-y-1">

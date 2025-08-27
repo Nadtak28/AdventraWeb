@@ -1,5 +1,5 @@
 import { Calendar, Users, Activity } from "lucide-react";
-import AnimatedSection from "../animatedSection";
+import AnimatedSection from "../../../tour/mainContent/animatedSection";
 function TourStats({ tourStats, ticketsCount, endingDate, startingDate }) {
   const calculateDuration = (start, end) => {
     if (!start || !end) return "0 Days";
@@ -24,7 +24,7 @@ function TourStats({ tourStats, ticketsCount, endingDate, startingDate }) {
     {
       icon: Users,
       label: "Group Size",
-      value: `Max ${ticketsCount || 0} People`,
+      value: `remaining ${ticketsCount || 0} People`,
     },
     {
       icon: Activity,
@@ -35,7 +35,7 @@ function TourStats({ tourStats, ticketsCount, endingDate, startingDate }) {
 
   return (
     <AnimatedSection delay={200}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-gray-50 rounded-2xl border border-[#519489]/10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 from-gray-50 bg-gradient-to-br dark:from-gray-800 dark:to-gray-900  rounded-2xl border border-[#519489]/10">
         {stats.map((stat, index) => (
           <div key={index} className="flex items-center gap-4 group">
             <div className="p-3 bg-[#519489]/10 rounded-2xl group-hover:bg-[#519489]/20 transition-colors duration-300">
@@ -43,7 +43,9 @@ function TourStats({ tourStats, ticketsCount, endingDate, startingDate }) {
             </div>
             <div>
               <p className="text-sm font-medium text-[#519489]">{stat.label}</p>
-              <p className="text-lg font-bold text-gray-900">{stat.value}</p>
+              <p className="text-lg font-bold dark:text-white text-gray-900">
+                {stat.value}
+              </p>
             </div>
           </div>
         ))}

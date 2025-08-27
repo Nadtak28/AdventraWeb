@@ -1,21 +1,22 @@
-import TourHero from "./mainContent/TourHero/tourHero";
-import TourStats from "./mainContent/TourStats/tourStats";
-import Itinerary from "./mainContent/Itinerary/itinerary";
-import DestinationsCarousel from "./mainContent/DestinationCarousel/destinationsCarousel";
-import ReviewsSection from "../../../components/ReviewSection/reviewSection";
-import GuideSection from "./mainContent/GuideSection/guideSection";
+import TourHero from "../tour/mainContent/TourHero/tourHero";
+import TourStats from "../tour/mainContent/TourStats/tourStats";
+import Itinerary from "../tour/mainContent/Itinerary/itinerary";
+import DestinationsCarousel from "../tour/mainContent/DestinationCarousel/destinationsCarousel";
+import ReviewsSection from "../../../../components/ReviewSection/reviewSection";
+import GuideSection from "../tour/mainContent/GuideSection/guideSection";
 import AvailableDates from "./mainContent/AvailableDates/availableDates";
-import BookingCTA from "./mainContent/BookingCTA/bookingCTA";
+import BookingCTA from "../tour/mainContent/BookingCTA/bookingCTA";
 import { Loader2, AlertCircle } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { OneTourService } from "../../tours/api/oneTourService";
-import { GetInfoUserService } from "../../user/api/getInfoUserService";
+import { OneTourService } from "../../api/oneTourService";
+import { GetInfoUserService } from "../../../user/api/getInfoUserService";
 import { useParams } from "react-router-dom";
 
 export default function MainContent() {
   const { id } = useParams();
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const {
@@ -38,8 +39,8 @@ export default function MainContent() {
   // wait for user
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading user info...
+      <div className="min-h-screen bg-white dark:bg-[#1a1f2e] dark:text-white flex items-center justify-center">
+        Loading tour info...
       </div>
     );
   }
@@ -47,7 +48,7 @@ export default function MainContent() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Failed to load user info.
+        Failed to load tour info.
       </div>
     );
   }
@@ -59,7 +60,7 @@ export default function MainContent() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-[#519489] mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl bg-white dark:bg-[#1a1f2e] dark:text-white font-semibold text-gray-900">
             Loading tour details...
           </h2>
         </div>
@@ -72,7 +73,7 @@ export default function MainContent() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          <h2 className="text-xl bg-white dark:bg-[#1a1f2e] dark:text-white font-semibold text-gray-900 mb-2">
             Error loading tour
           </h2>
           <p className="text-gray-600">{errorDetail}</p>
@@ -82,7 +83,7 @@ export default function MainContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen dark:bg-[#1a1f2e]  bg-white">
       {/* Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(8)].map((_, i) => (
@@ -102,20 +103,21 @@ export default function MainContent() {
         ))}
       </div>
 
-      <main className="relative max-w-6xl mx-auto px-4 py-8">
+      <main className="relative max-w-6xl mx-auto px-4 py-8 transition-all duration-300">
         <TourHero
-          tour={tour}
           tourStats={tour?.status}
           price={tour?.price}
           name={tour?.name}
-          tourImages={tour?.images?.length ? tour.images : ["fallback-url"]}
+          tourImages={tour?.images?.map((img) => img.url) || ["fallback-url"]}
+          tourVideos={tour?.videos?.map((vid) => vid.url) || ["fallback-url"]}
           rate={tour?.rate}
           reviewCounts={tour?.reviews_count}
         />
+
         <TourStats
           startingDate={tour?.starting_date}
           endingDate={tour?.ending_date}
-          ticketsCount={tour?.tickets_count}
+          ticketsCount={tour?.remaining_tickets}
           tourStats={tour?.status}
         />
         <Itinerary events={tour?.events} />
@@ -125,6 +127,7 @@ export default function MainContent() {
           entityId={Number(id)}
           feedbacks={tour?.feedbacks}
           currentUserId={user?.id}
+          onUserModalToggle={setIsUserModalOpen}
         />
         <GuideSection guide={tour?.guide} />
         <AvailableDates

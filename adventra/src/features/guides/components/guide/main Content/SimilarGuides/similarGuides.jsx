@@ -1,23 +1,37 @@
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { OneGuideService } from "../../../../api/oneGuideService";
+import { RelatedGuidesService } from "../../../../api/relatedGuidesService";
 import SimilarGuideCard from "./similarGuidesCard";
 import LoadingSpinner from "../loadingSpinner";
 import AnimatedCard from "../animatedCard";
-import { RelatedGuidesService } from "../../../../api/relatedGuidesService";
+
 const SimilarGuides = () => {
   const { id } = useParams();
-  const { guide } = OneGuideService(id);
+  const dispatch = useDispatch();
+
+  // Get data from Redux store instead of calling services as hooks
+  const { detail: guide } = useSelector((state) => state.guides);
   const {
-    guides: similarGuides,
-    loading,
-    error,
-  } = RelatedGuidesService(parseInt(id), guide?.categories);
+    relatedGuidesDetails: similarGuides,
+    loadingRelatedGuidesDetail: loading,
+    errorRelatedGuidesDetail: error,
+  } = useSelector((state) => state.guides);
+
+  // Dispatch the action when component mounts or id changes
+  useEffect(() => {
+    if (id) {
+      dispatch(RelatedGuidesService(parseInt(id)));
+    }
+  }, [id, dispatch]);
 
   if (loading) return <LoadingSpinner text="Finding similar guides..." />;
+
   if (error)
     return (
-      <div className="text-center p-8 animate-fadeIn">
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-red-200">
+      <div className="text-center p-8 bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 animate-fadeIn">
+        <div className="from-white bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-6 border border-red-200">
           <svg
             className="w-12 h-12 text-red-500 mx-auto mb-4"
             fill="none"
@@ -41,7 +55,7 @@ const SimilarGuides = () => {
 
   if (!similarGuides || similarGuides.length === 0) {
     return (
-      <AnimatedCard className="text-center p-12 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100 shadow-lg">
+      <AnimatedCard className="text-center p-12 bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-gray-50 to-white rounded-2xl border border-gray-100 shadow-lg">
         <div className="text-gray-500">
           <div className="relative">
             <svg
@@ -61,14 +75,14 @@ const SimilarGuides = () => {
               <div className="w-2 h-2 bg-[#519489] rounded-full animate-ping"></div>
             </div>
           </div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-3">
+          <h3 className="text-xl dark:text-white font-semibold text-gray-700 mb-3">
             No similar guides found
           </h3>
           <p className="text-gray-500 max-w-md mx-auto leading-relaxed">
             We couldn't find guides with similar specialties at the moment. Try
             exploring our other amazing guides!
           </p>
-          <button className="mt-6 px-6 py-3 bg-gradient-to-r from-[#519489] to-[#6ba89d] text-white rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+          <button className="mt-6 px-6 py-3 bg-gradient-to-r cursor-pointer from-[#519489] to-[#6ba89d] text-white rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">
             <span className="flex items-center">
               <svg
                 className="w-5 h-5 mr-2"
@@ -96,7 +110,7 @@ const SimilarGuides = () => {
       {/* Header Section */}
       <div className="text-center animate-slideDown">
         <div className="relative inline-block">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3 bg-gradient-to-r from-gray-900 via-[#519489] to-gray-900 bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r dark:from-white dark:to-[#519489] from-gray-900 via-[#519489] to-gray-900 bg-clip-text text-transparent">
             Similar Guides
           </h2>
           <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#519489] to-[#6ba89d] rounded-full"></div>
@@ -184,12 +198,17 @@ const SimilarGuides = () => {
               </div>
             </div>
             <div className="flex-1">
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">
+              <h4 className="text-lg font-semibold dark:text-white text-gray-900 mb-2">
                 Based on your interests
               </h4>
               <p className="text-gray-600 mb-3">
-                These guides specialize in similar categories as {guide.name}:
+                These guides specialize in similar categories as
+                <span className="text-[#519489] font-semibold">
+                  {guide.name}
+                </span>
+                :
               </p>
+
               <div className="flex flex-wrap gap-2">
                 {guide.categories.map((category) => (
                   <span
@@ -215,43 +234,6 @@ const SimilarGuides = () => {
           </div>
         </div>
       )}
-
-      {/* Call to Action */}
-      <div
-        className="text-center bg-gradient-to-r from-gray-50 to-white rounded-2xl p-8 border border-gray-100 animate-slideUp"
-        style={{ animationDelay: "900ms" }}
-      >
-        <h3 className="text-xl font-semibold text-gray-900 mb-3">
-          Can't find what you're looking for?
-        </h3>
-        <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Our team can help you find the perfect guide for your specific needs.
-          Get personalized recommendations based on your preferences.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="group px-6 py-3 bg-gradient-to-r from-[#519489] to-[#6ba89d] text-white rounded-full font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-            <span className="flex items-center">
-              <svg
-                className="w-5 h-5 mr-2 group-hover:animate-pulse"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-              Get Help Finding a Guide
-            </span>
-          </button>
-          <button className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-full font-semibold hover:border-[#519489] hover:text-[#519489] transition-colors duration-300">
-            Browse All Categories
-          </button>
-        </div>
-      </div>
     </AnimatedCard>
   );
 };

@@ -1,6 +1,6 @@
 // src/utils/FcmService.js
 import { getToken } from "firebase/messaging";
-import {messaging, vapiFireBase} from "../firebase.js"; // <-- use firebase.js
+import { messaging } from "./firebase"; // <-- use firebase.js
 
 export const requestFCMToken = async () => {
   try {
@@ -13,7 +13,7 @@ export const requestFCMToken = async () => {
 
     const token = await getToken(messaging, {
       vapidKey:
-      vapiFireBase,
+        "BB01AJyEv184wwGyYQREYJDzhYPwQRTmSBW7FD64_SeYKtDUKyOGpLsgsQan4eVw7mA8Opxox8jcok7iZdugnT0",
       serviceWorkerRegistration: registration,
     });
 

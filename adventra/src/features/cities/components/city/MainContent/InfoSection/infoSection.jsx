@@ -1,5 +1,6 @@
 import { MapPin, Globe, Languages } from "lucide-react";
 import SkeletonCard from "../skeletonCard";
+
 const CityInfoSection = ({ cityCountry, cityLanguage, cityDescription }) => {
   const infoCards = [
     {
@@ -34,10 +35,12 @@ const CityInfoSection = ({ cityCountry, cityLanguage, cityDescription }) => {
               <div className="p-2 rounded-lg bg-[#519489]/10 group-hover:bg-[#519489]/20 transition-colors duration-300">
                 <card.icon className="w-5 h-5 text-[#519489]" />
               </div>
-              <h2 className="text-[#101918] text-xl font-bold">{card.title}</h2>
+              <h2 className="text-[#101918] dark:text-white text-xl font-bold">
+                {card.title}
+              </h2>
             </div>
-            <div className="bg-white rounded-xl border border-[#519489]/20 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:border-[#519489]/40 group-hover:transform group-hover:translate-x-2">
-              <p className="text-[#519489] text-base leading-relaxed">
+            <div className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-xl border border-[#519489]/20 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:border-[#519489]/40 group-hover:transform group-hover:translate-x-2">
+              <p className="text-[#519489] dark:text-white text-base leading-relaxed">
                 {card.content}
               </p>
             </div>
@@ -47,4 +50,5 @@ const CityInfoSection = ({ cityCountry, cityLanguage, cityDescription }) => {
     </div>
   );
 };
+
 export default CityInfoSection;

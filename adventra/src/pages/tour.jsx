@@ -1,4 +1,4 @@
-import MainContent from "../features/tour/components/mainContent";
+import MainContent from "../features/tours/components/tour/mainContent";
 
 function Tour() {
   return (

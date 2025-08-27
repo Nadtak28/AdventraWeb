@@ -7,14 +7,15 @@ export const RelatedGuidesService = createAsyncThunk(
     try {
       const res = await MoujaasAuth.get(`${API.guides}/${id}/relatedGuides`);
       console.log(
-        "one Guide data........................................",
+        "related guide data........................................",
         res.data.data
       );
 
       return res.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Failed to fetch Guide details."
+        error.response?.data?.message ||
+          "Failed to fetch related guides details."
       );
     }
   }

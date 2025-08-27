@@ -1,17 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import MoujaasAuth from "../../../api/moujaasAuth";  // Your axios or API instance
+import MoujaasAuth from "../../../api/moujaasAuth"; // Your axios or API instance
 import { API } from "../../../api/apiRoutes";
 
 export const GuidesService = createAsyncThunk(
   "guides",
-  async (_, thunkAPI) => {
+  async ({ page = 1, ...otherParams } = {}, thunkAPI) => {
     try {
-      const response = await MoujaasAuth.get(API.guides);
-      console.log("Guides data...................",response.data);
+      const params = new URLSearchParams({
+        page: page.toString(),
+        ...otherParams,
+      });
+
+      const response = await MoujaasAuth.get(`${API.guides}?${params}`);
+      console.log("Guides data...................", response.data);
       return response.data;
-      // Your backend's entire home data object
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to load guides data");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to load guides data"
+      );
     }
   }
 );

@@ -40,9 +40,13 @@ const BookingSection = ({
   return (
     <AnimatedCard className="space-y-8" delay={200}>
       <div className="text-center animate-slideDown">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Book With</h2>
+        <h2 className="text-2xl font-bold dark:text-white text-gray-900 mb-2">
+          Book With
+        </h2>
         <h2 className="text-2xl font-bold text-[#519489] mb-2">{guideName}</h2>
-        <p className="text-gray-900 font-medium">Choose your preferred date</p>
+        <p className="text-gray-900 dark:text-white font-medium">
+          Choose your preferred date
+        </p>
       </div>
 
       {/* Loading states */}

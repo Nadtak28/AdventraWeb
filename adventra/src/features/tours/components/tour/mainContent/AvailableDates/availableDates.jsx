@@ -1,4 +1,4 @@
-import AnimatedSection from "../animatedSection";
+import AnimatedSection from "../../../tour/mainContent/animatedSection";
 import { Calendar } from "lucide-react";
 
 function AvailableDates({ startDate, endDate }) {
@@ -32,18 +32,20 @@ function AvailableDates({ startDate, endDate }) {
   return (
     <AnimatedSection delay={700}>
       <section className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <h2 className="text-2xl font-bold dark:text-white text-gray-900 mb-6">
           Available Dates
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {dates.map((date, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#519489]/20 transition-all duration-300 cursor-pointer group"
+              className="flex items-center justify-between p-4 bg-gradient-to-br  dark:from-gray-800 dark:to-gray-900  from-gray-50 rounded-xl border border-gray-100 hover:border-[#519489]/20 transition-all duration-300 cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <Calendar className="w-5 h-5 text-[#519489]" />
-                <span className="font-medium text-gray-900">{date}</span>
+                <span className="font-medium dark:text-white text-gray-900">
+                  {date}
+                </span>
               </div>
               <span className="text-[#519489] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                 Select

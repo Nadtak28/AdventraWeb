@@ -2,14 +2,7 @@ import { useState } from "react";
 import { ChevronRight, Star, MapPin, Clock, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const GuideCard = ({
-  id,
-  name,
-  rate,
-  images,
-  tours = Math.floor(Math.random() * 20) + 5,
-  experience = Math.floor(Math.random() * 8) + 2,
-}) => {
+const GuideCard = ({ id, name, rate, images, reviewer_count }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const navigate = useNavigate();
@@ -18,9 +11,8 @@ const GuideCard = ({
     navigate(`/guides/${id}`); // Navigate to guide detail page
   };
   const imageUrl =
-    images?.[0] ||
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face";
-  const rating = rate && rate !== "0" ? parseFloat(rate).toFixed(1) : "4.8";
+    images?.[0]?.url || "https://placehold.co/500x300?text=No+Image+Available";
+  const rating = rate;
   const stars = Math.floor(parseFloat(rating));
 
   return (
@@ -37,7 +29,7 @@ const GuideCard = ({
     >
       {/* Card container with shadow and backdrop */}
       <div
-        className={`relative bg-white rounded-3xl p-6 shadow-lg transition-all duration-500 ease-out transform ${
+        className={`relative bg-gradient-to-br from-white dark:from-gray-800 dark:to-gray-900 rounded-3xl p-6 shadow-lg transition-all duration-500 ease-out transform ${
           isHovered ? "shadow-2xl shadow-[#519489]/20 scale-105" : "shadow-md"
         }`}
       >
@@ -90,12 +82,7 @@ const GuideCard = ({
                 className={`absolute inset-0 bg-gradient-to-t from-[#121416]/80 via-transparent to-transparent flex items-end justify-center pb-4 transition-all duration-300 ${
                   isHovered ? "opacity-100" : "opacity-0"
                 }`}
-              >
-                <div className="text-white text-sm font-medium flex items-center space-x-2">
-                  <Users size={14} />
-                  <span>{tours} tours</span>
-                </div>
-              </div>
+              ></div>
             </div>
 
             {/* Floating badge */}
@@ -104,14 +91,14 @@ const GuideCard = ({
                 isHovered ? "scale-110 rotate-3" : "scale-100 rotate-0"
               }`}
             >
-              {experience}+ years
+              {reviewer_count}+ reviewer
             </div>
           </div>
 
           {/* Text content with staggered animations */}
           <div className="space-y-3 w-full">
             <h3
-              className={`text-[#121416] text-xl font-bold transform transition-all duration-500 delay-100 ${
+              className={`text-[#121416] dark:text-white text-xl font-bold transform transition-all duration-500 delay-100 ${
                 isHovered ? "scale-105 text-[#519489]" : "scale-100"
               }`}
             >

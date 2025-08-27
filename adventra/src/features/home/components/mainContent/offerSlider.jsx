@@ -187,7 +187,7 @@ const EnhancedOfferSlider = ({
 
         <div className="mb-8">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-gray-100 bg-gradient-to-r from-gray-900 dark:from-gray-100 to-teal-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-black  dark:text-gray-100 bg-gradient-to-r from-gray-900 dark:from-gray-100 to-teal-600 bg-clip-text text-transparent">
               {title || "Exclusive Offers"}
             </h2>
 
@@ -338,8 +338,8 @@ const EnhancedOfferSlider = ({
                         className="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-110 hover:rotate-1"
                         style={{
                           backgroundImage: `url(${
-                            item.images?.[0]?.url ||
-                            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop"
+                            item.images?.[0]?.url?.[0] ||
+                            "https://via.placeholder.com/800x600?text=No+Image+Available"
                           })`,
                         }}
                       />
@@ -355,7 +355,7 @@ const EnhancedOfferSlider = ({
                           >
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                           </svg>
-                          <span>{item.rating || "4.9"}</span>
+                          <span>{item.rate}</span>
                         </div>
 
                         <div className="bg-black/80 text-white px-1.5 py-1 rounded-lg flex items-center gap-1 text-xs font-semibold transform translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-400 delay-100">
@@ -394,14 +394,7 @@ const EnhancedOfferSlider = ({
 
                     <div className="mb-6">
                       <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
-                        <div className="flex items-baseline gap-0.5 text-gray-500 dark:text-gray-400 line-through font-semibold">
-                          <span className="text-sm">$</span>
-                          <span className="text-lg">
-                            {typeof item.originalPrice === "number"
-                              ? Math.round(item.originalPrice)
-                              : Math.round((item.price || 100) * 1.3)}
-                          </span>
-                        </div>
+                        <div className="flex items-baseline gap-0.5 text-gray-500 dark:text-gray-400 line-through font-semibold"></div>
 
                         <div className="text-green-500 dark:text-green-400 animate-bounce">
                           <svg
@@ -420,12 +413,8 @@ const EnhancedOfferSlider = ({
                           <span className="text-3xl">
                             {typeof item.price === "number"
                               ? item.price.toFixed(0)
-                              : item.price || "85"}
+                              : item.price}
                           </span>
-                        </div>
-
-                        <div className="bg-gradient-to-r from-green-500 dark:from-green-600 to-green-600 dark:to-green-700 text-white px-2 py-1 rounded-lg text-xs font-bold animate-pulse">
-                          <span>Save 30%</span>
                         </div>
                       </div>
                     </div>
@@ -462,7 +451,14 @@ const EnhancedOfferSlider = ({
                             />
                           </svg>
                         </div>
-                        <span>Limited time only</span>
+                        {item.is_limited ? (
+                          <span>
+                            Limited time only — {item.remaining_tickets} /{" "}
+                            {item.tickets_count} tickets left
+                          </span>
+                        ) : (
+                          "there is no limit time"
+                        )}
                       </div>
                     </div>
                   </div>
